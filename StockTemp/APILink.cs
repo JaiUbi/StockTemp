@@ -1,19 +1,24 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Data;
+using System.Text;
 using Microsoft.Data.Analysis;
+using static ReadData;
 
 namespace StockTemp
 {
-    class Program
+    class APILink
     {
         static void Main(string[] args)
         {
             AlphaConnect conn = new AlphaConnect("connect");
-            conn.ImportToCSV("cxr");
+            conn.ImportToCSV("EXPR");
             DataFrame df = DataFrame.LoadCsv("calledData.csv");
-            Console.WriteLine(df);
             
+
+            }
+
 
         }
     }
@@ -38,6 +43,12 @@ namespace StockTemp
             sr.Close();
             File.WriteAllText("calledData.csv", results);
         }
-    }
 
+       
+    }
 }
+
+
+    
+
+
