@@ -6,28 +6,8 @@ using System.Text;
 using Microsoft.Data.Analysis;
 using DataRead;
 
-
-namespace StockTemp
+namespace APIConnect
 {
-    class APILink
-    {
-        static void Main(string[] args)
-        {
-            AlphaConnect conn = new AlphaConnect("connect");
-            conn.ImportToCSV("AMC");
-            DataFrame df = DataFrame.LoadCsv("calledData.csv");
-            
-            CsvToDataTable obj = new CsvToDataTable();
-            DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
-            obj.ShowData(dtData);
-        }
-    }
-
-
-        }
-    
-
-
     public class AlphaConnect
     {
         private readonly string _apiKey;
@@ -49,10 +29,7 @@ namespace StockTemp
             File.WriteAllText("calledData.csv", results);
         }
 
-       
+
     }
 
-
-    
-
-
+}
