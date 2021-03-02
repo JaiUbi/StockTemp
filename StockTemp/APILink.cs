@@ -4,7 +4,8 @@ using System.Net;
 using System.Data;
 using System.Text;
 using Microsoft.Data.Analysis;
-using static ReadData;
+using DataRead;
+
 
 namespace StockTemp
 {
@@ -13,15 +14,19 @@ namespace StockTemp
         static void Main(string[] args)
         {
             AlphaConnect conn = new AlphaConnect("connect");
-            conn.ImportToCSV("EXPR");
+            conn.ImportToCSV("AMC");
             DataFrame df = DataFrame.LoadCsv("calledData.csv");
             
-
-            }
+            CsvToDataTable obj = new CsvToDataTable();
+            DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
+            obj.ShowData(dtData);
+        }
+    }
 
 
         }
-    }
+    
+
 
     public class AlphaConnect
     {
@@ -46,7 +51,6 @@ namespace StockTemp
 
        
     }
-}
 
 
     
