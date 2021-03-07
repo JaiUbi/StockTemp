@@ -14,13 +14,19 @@ namespace StockTemp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter stock ticker:");
+            string Ticker = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
+
             AlphaConnect conn = new AlphaConnect("connect");
-            conn.ImportToCSV("AMC");
+            conn.ImportToCSV(Ticker);
             DataFrame df = DataFrame.LoadCsv("calledData.csv");
-            
+          
             CsvToDataTable obj = new CsvToDataTable();
             DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
-            obj.ShowData(dtData);
+             obj.ShowData(dtData);
         }
     }
 
