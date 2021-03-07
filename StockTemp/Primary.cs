@@ -10,15 +10,27 @@ using APIConnect;
 
 namespace StockTemp
 {
-    class Primary
+    public class Primary
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Enter stock ticker:");
-            string Ticker = Console.ReadLine();
-            Console.WriteLine();
-            Console.WriteLine();
+        
 
+         public static void Main(string[] args)
+        {
+
+            Console.WriteLine("Enter stock ticker: ");
+            string? Ticker = Console.ReadLine();
+            Console.WriteLine("Enter Timeframe: ");
+            string? TimeFrame = Console.ReadLine();
+            if(TimeFrame == "daily")
+            {
+                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
+            }
+            else
+            {
+                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
+            }
+
+            
 
             AlphaConnect conn = new AlphaConnect("connect");
             conn.ImportToCSV(Ticker);

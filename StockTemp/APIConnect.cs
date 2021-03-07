@@ -10,6 +10,9 @@ namespace APIConnect
 {
     public class AlphaConnect
     {
+        public string? Ticker { get; set; }
+        public string? TimeFrame { get; set; }
+        public string? TimeFrameOutput { get; set; }
         private readonly string _apiKey;
 
 
@@ -20,16 +23,19 @@ namespace APIConnect
         }
 
         public void ImportToCSV(string symbol)
-        {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={this._apiKey}&datatype=csv");
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-            StreamReader sr = new StreamReader(resp.GetResponseStream());
-            string results = sr.ReadToEnd();
-            sr.Close();
-            File.WriteAllText("calledData.csv", results);
-        }
 
-
+        { 
+        
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(TimeFrameOutput);
+                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+                StreamReader sr = new StreamReader(resp.GetResponseStream());
+                string results = sr.ReadToEnd();
+                sr.Close();
+                File.WriteAllText("calledData.csv", results);
+            }
+           
+}
     }
 
-}
+
+    
