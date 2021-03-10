@@ -12,13 +12,17 @@ namespace APIConnect
     {
        
         public static string _apiKey;
+        public static string _minute;
 
-
+    
         public AlphaConnect(string apiKey)
         {
 
             _apiKey = "AIIPH2TZ7PVCRVP2";
+            
         }
+        
+
 
         public void ImportToCSVDaily(string symbol)
 
@@ -35,7 +39,7 @@ namespace APIConnect
 
         {
 
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=5min&apikey={_apiKey}&datatype=csv");
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval={_minute}&apikey={_apiKey}&datatype=csv");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
             StreamReader sr = new StreamReader(resp.GetResponseStream());
             string results = sr.ReadToEnd();
@@ -43,7 +47,7 @@ namespace APIConnect
             File.WriteAllText("calledData.csv", results);
         }
     }
-    }
+}
 
 
     
