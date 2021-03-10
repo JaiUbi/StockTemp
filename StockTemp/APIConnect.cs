@@ -10,9 +10,9 @@ namespace APIConnect
 {
     public class AlphaConnect
     {
-        public string Ticker { get; set; }
-        public string TimeFrame { get; set; }
-        public string TimeFrameOutput { get; set; }
+        public string? Ticker { get; set; }
+        public string? TimeFrame { get; set; }
+        public string? TimeFrameOutput { get; set; }
         private readonly string _apiKey;
 
 
@@ -25,8 +25,8 @@ namespace APIConnect
         public void ImportToCSV(string symbol)
 
         { 
-                
-                HttpWebRequest? req = (HttpWebRequest)WebRequest.Create(Ticker.decoded);
+        
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(TimeFrameOutput);
                 HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
                 StreamReader sr = new StreamReader(resp.GetResponseStream());
                 string results = sr.ReadToEnd();

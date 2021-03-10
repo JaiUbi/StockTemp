@@ -6,47 +6,31 @@ using System.Text;
 using Microsoft.Data.Analysis;
 using DataRead;
 using APIConnect;
-using System.Web;
-
 
 
 namespace StockTemp
-
 {
-    public class Ticker
-    {
-        public string decoded;
-        
-    }
-}
     public class Primary
     {
         
 
          public static void Main(string[] args)
         {
-            
+
             Console.WriteLine("Enter stock ticker: ");
-            string Ticker = Console.ReadLine();
+            string? Ticker = Console.ReadLine();
             Console.WriteLine("Enter Timeframe: ");
             string? TimeFrame = Console.ReadLine();
-            
-            if (TimeFrame == "daily")
+            if(TimeFrame == "daily")
             {
-            
-                var encoded = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
-             var decoded = HttpUtility.HtmlDecode(encoded);
-        }
+                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
+            }
             else
             {
+                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
+            }
 
             
-            var encoded = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
-             var decoded = HttpUtility.HtmlDecode(encoded);
-        }
-
-
-
 
             AlphaConnect conn = new AlphaConnect("connect");
             conn.ImportToCSV(Ticker);
@@ -59,6 +43,7 @@ namespace StockTemp
     }
 
 
+        }
     
 
 
