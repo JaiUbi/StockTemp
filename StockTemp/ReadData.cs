@@ -14,7 +14,7 @@ namespace DataRead
              
             public DataTable ConvertCsvToDataTable(string filepath)
             {
-
+            string blank = "         ";
                 string[] rows = File.ReadAllLines(filepath);
 
                 DataTable dtData = new DataTable();
@@ -24,7 +24,7 @@ namespace DataRead
                 if (rows.Length > 0)
                 {
                     foreach (string columnName in rows[0].Split(','))
-                        dtData.Columns.Add(columnName);
+                        dtData.Columns.Add(columnName + blank);
 
                 }
 
@@ -51,7 +51,7 @@ namespace DataRead
 
                             Console.Write(dc.ColumnName + " ");
                         }
-                        Console.WriteLine("\n--------------------------------");
+                        Console.WriteLine("\n----------------------------------------------------------------------------------------------");
 
                         foreach (DataRow dr in dtData.Rows)
                         {
