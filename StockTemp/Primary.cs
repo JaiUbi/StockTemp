@@ -1,54 +1,91 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Data;
-using System.Text;
-using Microsoft.Data.Analysis;
+﻿using APIConnect;
 using DataRead;
-using APIConnect;
+using Microsoft.Data.Analysis;
+using System;
+using System.Data;
 
 
 namespace StockTemp
 {
     public class Primary
     {
-        
 
-         public static void Main(string[] args)
+
+        public static void Main(string[] args)
         {
 
-            Console.WriteLine("Enter stock ticker: ");
-            string? Ticker = Console.ReadLine();
-            Console.WriteLine("Enter Timeframe: ");
-            string? TimeFrame = Console.ReadLine();
-            if(TimeFrame == "daily")
+            bool InLength = false;
+            string Ticker = "";
+            string TimeFrameOutput = "";
+            do
             {
-                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
-            }
-            else
+                Console.WriteLine("Enter stock ticker: ");
+                Ticker = Console.ReadLine();
+                if (Ticker.Length < 6)
+                {
+                    InLength = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Ticker Retry");
+                    InLength = false;
+                }
+            } while (InLength == false);
+            bool a = false;
+            do
             {
-                string? TimeFrameOutput = "https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey=AIIPH2TZ7PVCRVP2&datatype=csv";
-            }
+                Console.WriteLine("Choose a timeframe: " + "\n1: Daily" + "\n2: Hourly");
+                string TimeFrame = Console.ReadLine();
+                switch (TimeFrame)
+                {
+                    case "1":
+                        string choice = "Daily";
+                        Console.Clear();
+                        Console.WriteLine(
+                            "Your ticker is: " + Ticker +
+                            "\nYour selected timeframe is: " + choice +
+                            "\nPlease Wait..."
+                            );
+                        TimeFrameOutput = $@"https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey={APIConnect.AlphaConnect._apiKey}&datatype=csv";
+                        AlphaConnect conn = new AlphaConnect("connect");
+                        conn.ImportToCSVDaily(Ticker);
+                        DataFrame df = DataFrame.LoadCsv("calledData.csv");
 
-            
+                        CsvToDataTable obj = new CsvToDataTable();
+                        DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
+                        obj.ShowData(dtData);
+                        a = true;
+                        break;
 
-            AlphaConnect conn = new AlphaConnect("connect");
-            conn.ImportToCSV(Ticker);
-            DataFrame df = DataFrame.LoadCsv("calledData.csv");
-          
-            CsvToDataTable obj = new CsvToDataTable();
-            DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
-             obj.ShowData(dtData);
+                    case "2":
+                        choice = "Hourly";
+                        Console.Clear();
+                        Console.WriteLine(
+                            "Your ticker is: " + Ticker +
+                            "\nYour selected timeframe is: " + choice +
+                            "\nPlease Wait..."
+                            );
+
+                        TimeFrameOutput = $@"https://" + $@"www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={Ticker}&apikey={APIConnect.AlphaConnect._apiKey}&datatype=csv";
+                        conn = new AlphaConnect("connect");
+                        conn.ImportToCSVIntraDay(Ticker);
+                        df = DataFrame.LoadCsv("calledData.csv");
+
+                        obj = new CsvToDataTable();
+                        dtData = obj.ConvertCsvToDataTable("calledData.csv");
+                        obj.ShowData(dtData);
+                        a = true;
+                        break;
+
+                    default:
+                        Console.Clear();
+                        Console.WriteLine(
+                            "Invalid Entry" +
+                            "\nYour selected ticker is {0}", Ticker
+                            );
+                        break;
+                }
+            } while (a == false);
         }
     }
-
-
-        }
-    
-
-
-   
-
-    
-
-
+}
