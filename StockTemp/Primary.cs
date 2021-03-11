@@ -10,15 +10,18 @@ namespace StockTemp
     public class Primary
     {
         
-        public static void Main(string[] args)
-        {
+        
 
+            public static void Main(string[] args)
+        {
+            Console.WindowWidth = 180;
             bool InLength = false;
             string Ticker = "";
             string IntervalChoice = "";
             
             do
             {
+                Console.WriteLine(Console.WindowWidth);
                 Console.WriteLine("Enter stock ticker: ");
                 Ticker = Console.ReadLine();
                 if (Ticker.Length < 6)
@@ -34,21 +37,14 @@ namespace StockTemp
             bool a = false;
             do
             {
-                Console.WriteLine("Choose a timeframe: " + "\n1: Daily" + "\n2: Intraday");
+                Console.WriteLine("Choose a timeframe: " + "\n1: Current Price" + "\n2: Daily" + "\n3: Intraday");
                 string TimeFrame = Console.ReadLine();
                 switch (TimeFrame)
                 {
                     case "1":
-                        string choice = "Daily";
                         Console.Clear();
-                        Console.WriteLine(
-                            "Your ticker is: " + Ticker +
-                            "\nYour selected timeframe is: " + choice +
-                            "\nPlease Wait..."
-                            );
-                        
                         AlphaConnect conn = new AlphaConnect("connect");
-                        conn.ImportToCSVDaily(Ticker);
+                        conn.ImportToCSVCurrent(Ticker);
                         DataFrame df = DataFrame.LoadCsv("calledData.csv");
 
                         CsvToDataTable obj = new CsvToDataTable();
@@ -56,9 +52,15 @@ namespace StockTemp
                         obj.ShowData(dtData);
                         a = true;
                         break;
-
                     case "2":
-                        Console.WriteLine("Choose the intervals: " + "\n1: 1 Minute:" + "\n2: 5 Minutes" + "\n3: 15 Minutes" + "\n4: 30 Minutes" + "\n5: 60 Minutes");
+                        Console.WriteLine(
+                            "Choose the intervals: " +
+                            "\n1: 1 Minute:" +
+                            "\n2: 5 Minutes" +
+                            "\n3: 15 Minutes" +
+                            "\n4: 30 Minutes" +
+                            "\n5: 60 Minutes"
+                            );
                         string Interval = Console.ReadLine();
                         switch (Interval)
                         {
@@ -90,7 +92,7 @@ namespace StockTemp
                             "\nPlease Wait..."
                             );
 
-                        
+
                         conn = new AlphaConnect("connect");
                         conn.ImportToCSVIntraDay(Ticker);
                         df = DataFrame.LoadCsv("calledData.csv");
@@ -101,14 +103,28 @@ namespace StockTemp
                         a = true;
                         break;
 
-                    default:
+
+
+                    case "3":
+                        string choice = "Daily";
                         Console.Clear();
                         Console.WriteLine(
-                            "Invalid Entry" +
-                            "\nYour selected ticker is {0}", Ticker
+                            "Your ticker is: " + Ticker +
+                            "\nYour selected timeframe is: " + choice +
+                            "\nPlease Wait..."
                             );
-                        break;
-                }
+
+                        conn = new AlphaConnect("connect");
+                        conn.ImportToCSVDaily(Ticker);
+                        df = DataFrame.LoadCsv("calledData.csv");
+
+                        obj = new CsvToDataTable();
+                        dtData = obj.ConvertCsvToDataTable("calledData.csv");
+                        obj.ShowData(dtData);
+                        a = true;
+                     break;
+
+            }
             } while (a == false);
         }
     }
