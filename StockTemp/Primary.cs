@@ -8,22 +8,21 @@ using System.Data;
 namespace StockTemp
 {
     public class Primary
-    {
-        
-        
-
-            public static void Main(string[] args)
+    {   
+        public static void Main(string[] args)
         {
+            // Initialising variables + increases window size to facilitate all data 
             Console.WindowWidth = 180;
             bool InLength = false;
             string Ticker = "";
             string IntervalChoice = "";
             
             do
-            {
-                Console.WriteLine(Console.WindowWidth);
+            { 
+                // Reads in Ticker input
                 Console.WriteLine("Enter stock ticker: ");
                 Ticker = Console.ReadLine();
+                // Makes sure Ticker length is less than 6 otherwise loops and restarts
                 if (Ticker.Length < 6)
                 {
                     InLength = true;
@@ -33,26 +32,26 @@ namespace StockTemp
                     Console.WriteLine("Invalid Ticker Retry");
                     InLength = false;
                 }
-            } while (InLength == false);
+            } while (InLength == false); // If ticker length is valid program continues
             bool a = false;
             do
             {
-                Console.WriteLine("Choose a timeframe: " + "\n1: Current Price" + "\n2: Daily" + "\n3: Intraday");
+                Console.WriteLine("Choose a timeframe: " + "\n1: Todays Trading" + "\n2: Intraday" + "\n3: Daily");
                 string TimeFrame = Console.ReadLine();
                 switch (TimeFrame)
                 {
                     case "1":
                         Console.Clear();
-                        AlphaConnect conn = new AlphaConnect("connect");
+                        AlphaConnect conn = new AlphaConnect("connect"); // calls the variable conn from APIConnect class
                         conn.ImportToCSVCurrent(Ticker);
-                        DataFrame df = DataFrame.LoadCsv("calledData.csv");
+                        DataFrame df = DataFrame.LoadCsv("calledData.csv"); // imports the csv file containing stock data into a dataframe
 
-                        CsvToDataTable obj = new CsvToDataTable();
+                        CsvToDataTable obj = new CsvToDataTable(); // calls CSVtoDataTable Method
                         DataTable dtData = obj.ConvertCsvToDataTable("calledData.csv");
-                        obj.ShowData(dtData);
+                        obj.ShowData(dtData); // outputs data
                         a = true;
                         break;
-                    case "2":
+                    case "2": // secondary menu
                         Console.WriteLine(
                             "Choose the intervals: " +
                             "\n1: 1 Minute:" +
@@ -93,13 +92,13 @@ namespace StockTemp
                             );
 
 
-                        conn = new AlphaConnect("connect");
+                        conn = new AlphaConnect("connect"); // calls the variable conn from APIConnect class
                         conn.ImportToCSVIntraDay(Ticker);
-                        df = DataFrame.LoadCsv("calledData.csv");
+                        df = DataFrame.LoadCsv("calledData.csv"); // imports the csv file containing stock data into a dataframe
 
-                        obj = new CsvToDataTable();
+                        obj = new CsvToDataTable(); // calls CSVtoDataTable Method
                         dtData = obj.ConvertCsvToDataTable("calledData.csv");
-                        obj.ShowData(dtData);
+                        obj.ShowData(dtData); // outputs the stock data
                         a = true;
                         break;
 
@@ -114,13 +113,13 @@ namespace StockTemp
                             "\nPlease Wait..."
                             );
 
-                        conn = new AlphaConnect("connect");
+                        conn = new AlphaConnect("connect"); // calls the variable conn from the APIConnect Class
                         conn.ImportToCSVDaily(Ticker);
-                        df = DataFrame.LoadCsv("calledData.csv");
+                        df = DataFrame.LoadCsv("calledData.csv"); // imports the csv file containging stock data into a dataframe
 
-                        obj = new CsvToDataTable();
+                        obj = new CsvToDataTable(); // calls CSVtoDataTable Method
                         dtData = obj.ConvertCsvToDataTable("calledData.csv");
-                        obj.ShowData(dtData);
+                        obj.ShowData(dtData); // outputs the stock data
                         a = true;
                      break;
 

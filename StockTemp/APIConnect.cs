@@ -10,21 +10,21 @@ namespace APIConnect
 {
     public class AlphaConnect
     {
-       
-        public static string _apiKey;
+       // Initialise project-wide variables
+        public readonly string _apiKey;  // read-only, as APIKey should be private
         public static string _minute;
               
     
-        public AlphaConnect(string apiKey)
+         public AlphaConnect(string apiKey) // creates method containing a definition for APIKey
         {
 
             _apiKey = "AIIPH2TZ7PVCRVP2";
             
         }
         
+        // creating methods for each timeframe
 
-
-        public void ImportToCSVDaily(string symbol)
+        public void ImportToCSVDaily(string symbol)  // daily timeframe
 
         { 
         
@@ -35,7 +35,7 @@ namespace APIConnect
                 sr.Close();
                 File.WriteAllText("calledData.csv", results);
             }
-        public void ImportToCSVIntraDay(string symbol)
+        public void ImportToCSVIntraDay(string symbol) // intraday timeframe
 
         {
 
@@ -47,7 +47,7 @@ namespace APIConnect
             File.WriteAllText("calledData.csv", results);
         }
 
-        public void ImportToCSVCurrent(string symbol)
+        public void ImportToCSVCurrent(string symbol) // Todays Trading timeframe
 
         {
 
